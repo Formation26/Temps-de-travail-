@@ -450,9 +450,9 @@ function renderHome(){
   $('objBig').textContent=fmtH(o);
   $('mReal').textContent=fmtH(st.real);
   $('mRest').textContent=fmtH(Math.max(0,o-st.real));
-  var mo0=monthsElapsed(viewYear),rest=gm(s)*s.gardeH*(12-mo0),extra=Math.max(st.fut,rest),fc=st.real+extra;
+  var mo0=monthsElapsedProrated(viewYear),rest=gm(s)*s.gardeH*(12-mo0),extra=Math.max(st.fut,rest),fc=st.real+extra;
   $('mPlan').textContent=fmtH(fc);
-  $('fnote').textContent=(12-mo0)>0?'Prévisionnel = réalisé + '+fmtH(extra)+(extra>rest+0.004?' déjà planifiées':' ('+fmtG(gm(s))+' gardes par mois × '+(12-mo0)+' mois restants)')+', sans aucun congé.':'';
+  $('fnote').textContent=(12-mo0)>0?'Prévisionnel = réalisé + '+fmtH(extra)+(extra>rest+0.004?' déjà planifiées':' ('+fmtG(gm(s))+' gardes par mois × '+fmtG(12-mo0)+' mois restants, mois en cours compté au prorata)')+', sans aucun congé.':'';
   var gap=fc-o;$('mGap').textContent=fmtSigned(gap);$('mGap').className=gap>=-0.004?'pos':'neg';
   var mo=monthsElapsedProrated(viewYear),b='';
   if(mo>0){
