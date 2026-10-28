@@ -667,18 +667,14 @@ function buildIcs(a){
   return ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//MonTempsSPP//FR','CALSCALE:GREGORIAN'].concat(buildIcsEvent(a)).concat(['END:VCALENDAR']).join('\r\n');
 }
 function openIcs(text,filename){
-  try{
-    window.location.href='data:text/calendar;charset=utf-8,'+encodeURIComponent(text);
-  }catch(e){
-    var blob=new Blob([text],{type:'text/calendar'}),url=URL.createObjectURL(blob);
-    var link=document.createElement('a');link.href=url;link.download=filename;document.body.appendChild(link);link.click();link.remove();
-    setTimeout(function(){URL.revokeObjectURL(url)},30000);
-  }
+  var blob=new Blob([text],{type:'text/calendar'}),url=URL.createObjectURL(blob);
+  var link=document.createElement('a');link.href=url;link.download=filename;document.body.appendChild(link);link.click();link.remove();
+  setTimeout(function(){URL.revokeObjectURL(url)},30000);
 }
 function remindActivity(id){
   var a=state.activities.filter(function(x){return x.id===id})[0];if(!a)return;
   openIcs(buildIcs(a),'rappel-'+a.date+'.ics');
-  toast('Ouvre le fichier pour ajouter le rappel à ton calendrier');
+  toast('Fichier téléchargé : ouvre-le depuis Fichiers > Téléchargements pour l\'ajouter à ton calendrier');
 }
 function remindMonth(){
   var t=todayStr(),prefix=calY+'-'+pad(calM+1)+'-',
@@ -688,7 +684,7 @@ function remindMonth(){
   list.forEach(function(a){body=body.concat(buildIcsEvent(a))});
   body.push('END:VCALENDAR');
   openIcs(body.join('\r\n'),'rappels-'+calY+'-'+pad(calM+1)+'.ics');
-  toast('Ouvre le fichier pour ajouter les '+list.length+' rappels à ton calendrier');
+  toast('Fichier téléchargé : ouvre-le depuis Fichiers > Téléchargements pour ajouter les '+list.length+' rappels');
 }
 
 /* ---------- Synchronisation (compte claude.ai) ---------- */
